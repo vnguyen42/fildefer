@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/17 19:30:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/17 20:29:57 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/01/18 19:14:54 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,14 @@ int		get_next_number(char *str, int *index)
 
 	number_len = 0;
 	while (str[*index] != '\0' && (str[*index] < '0' || str[*index] > '9'))
+	{
+		if (str[*index] == '\n')
+		{
+			(*index)++;
+			return (-43);
+		}
 		(*index)++;
+	}
 	if (str[*index] == '\0')
 		return (-42);
 	while (str[*index] >= '0' && str[*index] <= '9')
@@ -34,11 +41,69 @@ int		get_next_number(char *str, int *index)
 	return (ft_atoi(num));
 }
 
+int **new_tab_from_file(char *filepath)
+{
+	int file;
+	char buf[5000];
+	int index;
+	t_point pos;
+	int **tab;
+
+	file = open(filepath, O_RDONLY);
+	index = read(file, buf, 5000);
+	buf[index] = '\0';
+	close(file);
+	pos.x = 0;
+	pos.y = 0;
+	while (buf[pos.x] != '\n')
+		pos.x++;
+	pos.y = index/pos.x;
+	tab = (int **)malloc(sizeof(int*) * pos.y + 1);
+	index = 0;
+	while (index < pos.y)
+	{
+		tab[index] = (int*)malloc(sizeof(int) * (pos.x + 1));
+		index++;
+	}
+	tab[index] = 0;
+	return (tab);
+}
+
+void	fill_tab_from_buf(int **tab, char buf[5000])
+{
+	t_point pos;
+	int		index;
+	int		num;
+
+	index = 0;
+	pos.x = 0;
+	pos.y = 0;
+	while (num != -42)
+	{
+		num = get_next_number(buf, &index);
+		if (num == -43)
+		{
+			tab[pos.y][pos.x] = -42;
+			pos.y++;
+			pos.x = 0;
+		}
+		else if (num == -42)
+			tab[pos.y][pos.x] = -42;
+		else
+		{
+			tab[pos.y][pos.x] = num;
+			pos.x++;
+		}
+	}
+}
+
 int		read_grid(char *filepath)
 {
-	int 	file;
-	char	buf[5000];
-	int		index;
+	int 		file;
+	char		buf[5000];
+	int			index;
+	int 		**tab;
+	t_point		stop;
 
 	file = open(filepath, O_RDONLY);
 	index = read(file, buf, 5000);
@@ -46,14 +111,22 @@ int		read_grid(char *filepath)
 	close(file);
 	if (file == -1)
 		return (-1);
-	index = 0;
-
-	char test[50] = "0 2 100 3 0";
-	int stop = 0;
-	while (stop != -42)
+	tab = new_tab_from_file(filepath);
+	fill_tab_from_buf(tab, buf);
+	
+	t_point p;
+	p.x = 0;
+	p.y = 0;
+	while (tab[p.y] != 0)
 	{
-		stop = get_next_number(test, &index);
-		printf("\n%d", stop);
+		p.x = 0;
+		while (tab[p.y][p.x] != -42)
+		{
+			printf("%d ", tab[p.y][p.x]);
+			p.x++;
+		}
+		printf("\n");
+		p.y++;
 	}
 	return (1);
 }
