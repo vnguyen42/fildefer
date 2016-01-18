@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/17 19:30:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/18 19:14:54 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/01/18 19:21:06 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	fill_tab_from_buf(int **tab, char buf[5000])
 	}
 }
 
-int		read_grid(char *filepath)
+int		**read_grid(char *filepath)
 {
 	int 		file;
 	char		buf[5000];
@@ -110,7 +110,7 @@ int		read_grid(char *filepath)
 	buf[index] = '\0';
 	close(file);
 	if (file == -1)
-		return (-1);
+		return (NULL);
 	tab = new_tab_from_file(filepath);
 	fill_tab_from_buf(tab, buf);
 	
@@ -128,5 +128,5 @@ int		read_grid(char *filepath)
 		printf("\n");
 		p.y++;
 	}
-	return (1);
+	return (tab);
 }
