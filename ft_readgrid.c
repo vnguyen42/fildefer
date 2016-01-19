@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/17 19:30:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/18 19:21:06 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/01/19 22:23:01 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int		**read_grid(char *filepath)
 		return (NULL);
 	tab = new_tab_from_file(filepath);
 	fill_tab_from_buf(tab, buf);
-	
+	return (tab);
 	t_point p;
 	p.x = 0;
 	p.y = 0;

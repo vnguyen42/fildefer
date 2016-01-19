@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/17 19:40:04 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/18 19:23:44 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/01/19 22:01:14 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int		main(int argc, char **argv)
 		return (0);
 	if (argv[1] == NULL)
 		return (0);
-	read_grid(argv[1]);
-	init_fdf();
+	init_fdf(read_grid(argv[1]));
 	return (0);
 }
