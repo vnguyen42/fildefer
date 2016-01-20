@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 19:41:08 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/20 20:51:32 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/01/20 22:31:41 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,12 @@ t_point ft_rotation(t_point p, float angle)
 	rotated_point.x = new_point.x;
 	rotated_point.y = new_point.y;
 	return (rotated_point);
+}
+
+int		ft_int_diff(int a, int b)
+{
+	if (a >= b)
+		return (a - b);
+	else
+		return (b - a);
 }

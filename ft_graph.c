@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 19:07:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/20 21:02:03 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/01/20 22:50:20 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,35 +24,39 @@ void	clear_screen(t_env *env)
 		p.x = 0;
 		while (p.x < WIN_WIDTH)
 		{
-			mlx_pixel_put(env->mlx, env->win, p.x, p.y, 0xDCF1F7);
+			//mlx_pixel_put(env->mlx, env->win, p.x, p.y, 0xDCF1F7);
+			mlx_pixel_put(env->mlx, env->win, p.x, p.y, 0x000000);
 			p.x++;
 		}
 		p.y++;
 	}
 }
 
-void	draw_line(t_env *env, t_point a, t_point b, int color)
+int		ft_altitude_color(int height, int color)
 {
-	int i;
-	double x;
-	double y;
-	double length;
-	double addx;
-	double addy;
+	return (color - (height * 100));
+}
 
-	x = b.x - a.x;
-	y = b.y - a.y;
-	length = sqrt(x * x + y * y);
-	addx = x / length;
-	addy = y / length;
-	x = a.x;
-	y = a.y;
+void	draw_line(t_env *env, t_point a, t_point b)
+{
+	int		i;
+	t_line	line;
+
+	line.x = b.x - a.x;
+	line.y = b.y - a.y;
+	line.length = sqrt(line.x * line.x + line.y * line.y);
+	line.addx = line.x / line.length;
+	line.addy = line.y / line.length;
+	line.x = a.x;
+	line.y = a.y;
 	i = 0;
-	while (i < length)
+	while (i < line.length)
 	{
-		mlx_pixel_put(env->mlx, env->win, x, y, color);
-		x += addx;
-		y += addy;
+		mlx_pixel_put(env->mlx, env->win, line.x + env->pos.x,
+				line.y + env->pos.y, ft_altitude_color(a.z, env->color) -
+				(i * ((ft_int_diff(a.z, b.z) * 20000) / line.length)));
+		line.x += line.addx;
+		line.y += line.addy;
 		i++;
 	}
 }
@@ -70,29 +74,30 @@ void	point_360_drawing(t_env *env, int **tab, t_point pos)
 	b.z = tab[b.y][b.x];
 	if (tab[pos.y + 2] != 0 && tab[pos.y + 1][pos.x] != -42)
 		draw_line(env, ft_rotation(ft_projection(a, 0.5), env->rotation),
-				ft_rotation(ft_projection(b, 0.5), env->rotation), 0xFFFFFF);
+				ft_rotation(ft_projection(b, 0.5), env->rotation));
 	b.y--;
 	b.x++;
 	b.z = tab[b.y][b.x];
 	if (tab[pos.y] != 0 && tab[pos.y][pos.x + 1] != -42)
 		draw_line(env, ft_rotation(ft_projection(a, 0.5), env->rotation),
-				ft_rotation(ft_projection(b, 0.5), env->rotation), 0xFFFFFF);
+				ft_rotation(ft_projection(b, 0.5), env->rotation));
 }
 
-void	draw_grid(t_env *env, int **tab)
+void	draw_grid(t_env *env, int clear)
 {
 	t_point p;
-
-	clear_screen(env);
+	
+	if (clear)
+		clear_screen(env);
 	p.x = 0;
 	p.y = 0;
 	p.z = 0;
-	while (tab[p.y] != 0)
+	while (env->tab[p.y] != 0)
 	{
 		p.x = 0;
-		while (tab[p.y][p.x] != -42)
+		while (env->tab[p.y][p.x] != -42)
 		{
-			point_360_drawing(env, tab, p);
+			point_360_drawing(env, env->tab, p);
 			//printf("%d ", tab[p.y][p.x]);
 			p.x++;
 		}
