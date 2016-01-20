@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 19:07:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/19 23:02:16 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/01/20 18:07:55 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ void	point_360_drawing(void *mlx, void *win, int **tab, t_point pos)
 	a.y = pos.y * GRID_SPACE;
 	b.x = (pos.x) * GRID_SPACE;
 	b.y = (pos.y + 1) * GRID_SPACE;
-	if (tab[pos.y + 1] != 0 && tab[pos.y + 1][pos.x] != -42)
+	if (tab[pos.y + 2] != 0 && tab[pos.y + 1][pos.x] != -42)
 		draw_line(mlx, win, a, b, 0xFFFFFF);
 	b.y -= GRID_SPACE;
 	b.x += GRID_SPACE;
-	//if (tab[pos.y] != 0 && tab[pos.y][pos.x + 1] != -42)
+	if (tab[pos.y] != 0 && tab[pos.y][pos.x + 1] != -42)
 		draw_line(mlx, win, a, b, 0xFFFFFF);
 }
 
