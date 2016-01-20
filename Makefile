@@ -6,7 +6,7 @@
 #    By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/17 19:27:32 by vnguyen           #+#    #+#              #
-#    Updated: 2016/01/19 19:08:51 by vnguyen          ###   ########.fr        #
+#    Updated: 2016/01/20 20:49:00 by vnguyen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ LIB_NAME =
 
 CC = gcc 
 
-SRC_NAME = ft_readgrid.c  main.c ft_fdf.c ft_graph.c
+SRC_NAME = ft_readgrid.c  main.c ft_fdf.c ft_graph.c ft_math.c ft_event.c
 
 OBJ_NAME = $(SRC:.c=.o)
 

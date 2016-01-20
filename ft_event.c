@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_event.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/17 19:40:04 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/20 19:11:45 by vnguyen          ###   ########.fr       */
+/*   Created: 2016/01/20 20:47:06 by vnguyen           #+#    #+#             */
+/*   Updated: 2016/01/20 21:05:02 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "read_grid.h"
 #include "ft_fdf.h"
+#include "read_grid.h"
+#include <math.h>
 
-int		main(int argc, char **argv)
+int ft_key_handler(int keycode, void *param)
 {
-	if (argc != 2)
-		return (0);
-	if (argv[1] == NULL)
-		return (0);
-	init_fdf(read_grid(argv[1]));
-	return (0);
+	t_env *env;
+
+	env = param;
+	printf("key event %d\n", keycode);
+	if (keycode == 123)
+	{
+		env->rotation--;
+//		draw_grid(param, tab);
+	}
 }
