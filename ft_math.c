@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 19:41:08 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/20 22:31:41 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/01/21 20:48:17 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "read_grid.h"
 #include <math.h>
 
-t_point	ft_projection(t_point p, float cte)
+t_point	ft_projection(t_env *env, t_point p, float cte)
 {
 	float x;
 	float y;
@@ -24,13 +24,13 @@ t_point	ft_projection(t_point p, float cte)
 	z = p.z / 6.5;
 	x = p.x - cte * z;
 	y = p.y - (cte / 2) * z;
-	projected_point.x = x * GRID_SPACE;
-	projected_point.y = y * GRID_SPACE;
+	projected_point.x = x * env->grid_space;
+	projected_point.y = y * env->grid_space;
 	projected_point.z = z;
 	return (projected_point);
 }
 
-t_point ft_rotation(t_point p, float angle)
+t_point ft_rotation(t_env *env, t_point p, float angle)
 {
 	t_point rotated_point;
 	t_point new_point;

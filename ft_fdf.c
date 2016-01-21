@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/18 19:18:32 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/20 23:03:40 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/01/21 21:00:39 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int		init_fdf(int **tab)
 	t_env env;
 	env.mlx = mlx_init();
 	env.win = mlx_new_window(env.mlx, WIN_WIDTH, WIN_HEIGHT, "Fil de fer");
+	mlx_do_key_autorepeaton(&env);
 	t_point a, b;
 	env.tab = tab;
 	a.x = 0;
@@ -37,9 +38,10 @@ int		init_fdf(int **tab)
 	b.y = 600;
 	env.rotation = 101;
 	env.color = 0x00ace6;
-	env.color = 21000;
+	env.color = 19000;
 	env.pos.x = 300;
 	env.pos.y = 300;
+	env.grid_space = 30;
 	//draw_line(mlx, win, a, b, 0xFFFFFF);
 	mlx_loop_hook(env.mlx, ft_translucid, &env);
 	draw_grid(&env, 1);

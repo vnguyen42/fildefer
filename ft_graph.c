@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 19:07:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/20 22:50:20 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/01/21 20:47:27 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	clear_screen(t_env *env)
 {
 	t_point p;
 
+	mlx_clear_window(env->mlx, env->win);
+	return;
 	p.y = 0;
 	while (p.y < WIN_HEIGHT)
 	{
@@ -73,20 +75,20 @@ void	point_360_drawing(t_env *env, int **tab, t_point pos)
 	b.y = (pos.y + 1);
 	b.z = tab[b.y][b.x];
 	if (tab[pos.y + 2] != 0 && tab[pos.y + 1][pos.x] != -42)
-		draw_line(env, ft_rotation(ft_projection(a, 0.5), env->rotation),
-				ft_rotation(ft_projection(b, 0.5), env->rotation));
+		draw_line(env, ft_rotation(env, ft_projection(env, a, 0.5), env->rotation),
+				ft_rotation(env, ft_projection(env, b, 0.5), env->rotation));
 	b.y--;
 	b.x++;
 	b.z = tab[b.y][b.x];
 	if (tab[pos.y] != 0 && tab[pos.y][pos.x + 1] != -42)
-		draw_line(env, ft_rotation(ft_projection(a, 0.5), env->rotation),
-				ft_rotation(ft_projection(b, 0.5), env->rotation));
+		draw_line(env, ft_rotation(env, ft_projection(env, a, 0.5), env->rotation),
+				ft_rotation(env, ft_projection(env, b, 0.5), env->rotation));
 }
 
 void	draw_grid(t_env *env, int clear)
 {
 	t_point p;
-	
+
 	if (clear)
 		clear_screen(env);
 	p.x = 0;
@@ -98,7 +100,6 @@ void	draw_grid(t_env *env, int clear)
 		while (env->tab[p.y][p.x] != -42)
 		{
 			point_360_drawing(env, env->tab, p);
-			//printf("%d ", tab[p.y][p.x]);
 			p.x++;
 		}
 		p.y++;
