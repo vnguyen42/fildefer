@@ -6,7 +6,7 @@
 #    By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/17 19:27:32 by vnguyen           #+#    #+#              #
-#    Updated: 2016/01/21 20:26:36 by vnguyen          ###   ########.fr        #
+#    Updated: 2016/02/25 11:01:31 by vnguyen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,11 +22,11 @@ LIB_PATH = -L.
 
 LIB_NAME =
 
-//CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 CC = gcc 
 
-SRC_NAME = ft_readgrid.c  main.c ft_fdf.c ft_graph.c ft_math.c ft_event.c
+SRC_NAME = get_next_line.c ft_readgrid.c  main.c ft_fdf.c ft_graph.c ft_math.c ft_event.c
 
 OBJ_NAME = $(SRC:.c=.o)
 

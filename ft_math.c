@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 19:41:08 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/21 20:48:17 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/02/25 11:08:50 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_point ft_rotation(t_env *env, t_point p, float angle)
 	float s;
 	float c;
 
+	(void)(env);
 	rotated_point = p;
 	s = sin(angle);
 	c = cos(angle);

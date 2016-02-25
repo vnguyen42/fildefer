@@ -6,13 +6,15 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 20:47:06 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/21 20:58:18 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/02/25 11:09:48 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fdf.h"
 #include "read_grid.h"
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int ft_key_handler(int keycode, void *param)
 {
@@ -41,4 +43,5 @@ int ft_key_handler(int keycode, void *param)
 		draw_grid(param, 1);
 	if (keycode == 53)
 		exit(0);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/18 19:18:32 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/21 21:00:39 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/02/25 11:08:35 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 #include "ft_fdf.h"
 #include <unistd.h>
 
-void	ft_translucid(void *param)
+int	ft_translucid(void *param)
 {
 	t_env *env;
 
 	env = param;
 	env->color++;
 	draw_grid(env, 0);
+	return (1);
 }
 
 int		init_fdf(int **tab)
@@ -42,7 +43,7 @@ int		init_fdf(int **tab)
 	env.pos.x = 300;
 	env.pos.y = 300;
 	env.grid_space = 30;
-	//draw_line(mlx, win, a, b, 0xFFFFFF);
+//	draw_line(mlx, win, a, b, 0xFFFFFF);
 	mlx_loop_hook(env.mlx, ft_translucid, &env);
 	draw_grid(&env, 1);
 	mlx_key_hook(env.win, ft_key_handler, &env);
