@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 20:47:06 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/02/25 11:09:48 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/14 19:05:36 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ int ft_key_handler(int keycode, void *param)
 		env->pos.x -= 25;
 	else if (keycode == 124)
 		env->pos.x += 25;
-	if (keycode == 257 || keycode == 256 || keycode == 69 || keycode == 78
+	else if (keycode == 19)
+		env->hauteur += 1;
+	else if (keycode == 18)
+		env->hauteur -= 1;
+	if (keycode == 257 || keycode == 256 || keycode == 18 || keycode == 19 || keycode == 69 || keycode == 78
 		|| (keycode >= 123 && keycode <= 126))
 		draw_grid(param, 1);
 	if (keycode == 53)

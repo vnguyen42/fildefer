@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/17 19:30:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/14 18:32:37 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/14 18:56:58 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int		get_next_number(char *line, int *num)
 	while (line[i] != '\0' && line[i] != '\n' && line[i - 1] != '\n')
 	{
 		j = 0;
-		while (line[i + j] >= '0' && line[i + j] <= '9')
+		while ((line[i + j] >= '0' && line[i + j] <= '9')
+				|| line[i + j] == '-')
 			j++;
 		if (j > 0)
 		{
@@ -119,9 +120,11 @@ int		**get_tab_from_file(char *filepath)
 		while (j.x != -42)
 		{
 			j.x = get_next_number(&buf[j.y], &tab[i.y][i.x]);
+	//		printf("%d ", j.x);
 			j.y += j.x + 1;
 			i.x++;
 		}
+	//	printf("\n");
 		i.y++;
 	}
 	tab[i.y] = 0;
@@ -157,9 +160,10 @@ int		**read_grid(char *filepath)
 		return (NULL);
 	
 	t_point dimensions = get_file_dimensions(filepath);
-	printf("dimensions: %d %d", dimensions.x, dimensions.y);
+	
+	printf("dimensions: %d %d\n", dimensions.x, dimensions.y);
 	int_tab = get_tab_from_file(filepath);
 	close (file);
-	//ft_print_grid(int_tab);
+	ft_print_grid(int_tab);
 	return (int_tab);
 }

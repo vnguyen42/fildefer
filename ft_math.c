@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 19:41:08 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/02/25 11:08:50 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/14 19:17:14 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_point	ft_projection(t_env *env, t_point p, float cte)
 	float y;
 	float z;
 	t_point projected_point;
-	
+
 	z = p.z / 6.5;
 	x = p.x - cte * z;
 	y = p.y - (cte / 2) * z;
@@ -55,4 +55,20 @@ int		ft_int_diff(int a, int b)
 		return (a - b);
 	else
 		return (b - a);
+}
+
+void    pixel_to_image(unsigned long color, t_env *val, int x, int y)
+{
+	char    *image;
+	int     bpp;
+	int     size_line;
+	int     endian;
+
+	image = mlx_get_data_addr(val->img, &bpp, &size_line, &endian);
+	val->r = ((color & 0xFF0000) >> 16);
+	val->g = ((color & 0xFF00) >> 8);
+	val->b = ((color & 0xFF));
+	image[x * bpp / 8 + y * size_line] = val->b;
+	image[x * bpp / 8 + 1 + y * size_line] = val->g;
+	image[x * bpp / 8 + 2 + y * size_line] = val->r;
 }

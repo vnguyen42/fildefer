@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/17 19:42:13 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/01/18 19:18:16 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/14 18:56:37 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ typedef struct s_point
 }				t_point;
 
 int		**read_grid(char *filepath);
+t_point	get_file_dimensions(char *filepath);
 
 #endif

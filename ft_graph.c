@@ -6,11 +6,12 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 19:07:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/14 18:33:53 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/14 19:23:42 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fdf.h"
+#include "Libft/libft.h"
 #include "read_grid.h"
 #include <stdio.h>
 
@@ -70,10 +71,10 @@ void	point_360_drawing(t_env *env, int **tab, t_point pos)
 
 	a.x = pos.x;
 	a.y = pos.y;
-	a.z = tab[a.y][a.x];
+	a.z = tab[a.y][a.x] * env->hauteur;
 	b.x = (pos.x);
 	b.y = (pos.y + 1);
-	b.z = tab[b.y][b.x];
+	b.z = tab[b.y][b.x] * env->hauteur;
 	if (tab[pos.y + 2] != 0 && tab[pos.y + 1][pos.x] != -42)
 		draw_line(env, ft_rotation(env, ft_projection(env, a, 0.5), env->rotation),
 				ft_rotation(env, ft_projection(env, b, 0.5), env->rotation));
@@ -90,11 +91,15 @@ void	draw_grid(t_env *env, int clear)
 	t_point p;
 
 	if (clear)
-		clear_screen(env);
+		clear = clear + 1;
+	//	clear_screen(env);
+	pixel_to_image(0x000000FF, env, 50, 50);
+	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
+	return;
 	p.x = 0;
 	p.y = 0;
 	p.z = 0;
-	while (env->tab[p.y] != 0 && p.y < 10)
+	while (env->tab[p.y] != 0 && p.y < env->dimensions.y - 1)
 	{
 		p.x = 0;
 		while (env->tab[p.y][p.x] != -42)
