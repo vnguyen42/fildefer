@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/17 19:30:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/02/25 11:47:52 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/11 19:48:34 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,6 @@
 #include "read_grid.h"
 #include "get_next_line.h"
 #include <stdio.h>
-
-int		get_next_number(char *str, int *index)
-{
-	int number_len;
-	char *num;
-
-	number_len = 0;
-	num = NULL;
-	while (str[*index] != '\0' && (str[*index] < '0' || str[*index] > '9'))
-	{
-		if (str[*index] == '\n')
-		{
-			(*index)++;
-			return (-43);
-		}
-		(*index)++;
-	}
-	if (str[*index] == '\0')
-		return (-42);
-	while (str[*index] >= '0' && str[*index] <= '9')
-	{
-		number_len++;
-		(*index)++;
-	}
-	if (number_len != 0)
-		num = ft_strsub(str, *index - number_len, number_len);
-	return (ft_atoi(num));
-}
 
 void	ft_strsplit_int(char *line, int *int_tab)
 {
@@ -108,6 +80,32 @@ char **char_tab_from_file(char *filepath)
 	return (tab);
 }
 
+t_point get_file_dimensions(char *filepath)
+{
+	int file;
+	char buf[100];
+	int line_length;
+	t_point dimensions;
+
+	line_length = 0;
+	dimensions.x = 0;
+	dimensions.y = 0;
+	file = open(filepath, O_RDONLY);
+	while (read(file, buf, 1) > 0)
+	{
+		if (buf[0] >= '0' && buf[0] <= '9')
+			line_length++;
+		if (buf[0] == '\n')
+		{
+			if (line_length > dimensions.x)
+				dimensions.x = line_length;
+			line_length = 0;
+			dimensions.y++;
+		}
+	}
+	return dimensions;
+}
+
 int **new_tab_from_file(char *filepath)
 {
 	int file;
@@ -136,90 +134,21 @@ int **new_tab_from_file(char *filepath)
 	return (tab);
 }
 
-void	fill_tab_from_buf(int **tab, char buf[5000])
-{
-	t_point pos;
-	int		index;
-	int		num;
-
-	index = 0;
-	pos.x = 0;
-	pos.y = 0;
-	num = 0;
-	while (num != -42)
-	{
-		num = get_next_number(buf, &index);
-		if (num == -43)
-		{
-			tab[pos.y][pos.x] = -42;
-			pos.y++;
-			pos.x = 0;
-		}
-		else if (num == -42)
-			tab[pos.y][pos.x] = -42;
-		else
-		{
-			tab[pos.y][pos.x] = num;
-			pos.x++;
-		}
-	}
-}
-
 int		**read_grid(char *filepath)
 {
 	int 		file;
-	char		buf[5000];
-	int			index;
-	int 		**tab;
-	char		**tab2;
-	t_point		stop;
+	int 		**int_tab;
+	char		**char_tab;
 
 	file = open(filepath, O_RDONLY);
-	index = read(file, buf, 5000);
-	buf[index] = '\0';
 	if (file == -1)
 		return (NULL);
-	tab = new_tab_from_file(filepath);
-	tab2 = char_tab_from_file(filepath);
+	
+	t_point dimensions = get_file_dimensions(filepath);
+	printf("dimensions: %d %d", dimensions.x, dimensions.y);
+	return NULL;
+	int_tab = new_tab_from_file(filepath);
+	char_tab = char_tab_from_file(filepath);
 	close (file);
-	file = open (filepath, O_RDONLY);
-	stop.y = 0;
-	while (get_next_line(file, &tab2[stop.y]))
-	{
-		stop.y++;
-	}
-	tab2[stop.y] = 0;
-	char_to_int_tab(tab2, tab);
-	t_point test;
-	test.x = 0;
-	test.y = 0;
-	while (tab[test.y] != 0)
-	{
-		test.x = 0;
-		while (tab[test.y][test.x] != 43)
-		{
-			printf("line %d: %d\n", test.y, tab[test.y][test.x]);
-			test.x++;
-		}
-		test.y++;
-	}
-	close (file);
-	return (tab);
-	fill_tab_from_buf(tab, buf);
-	return (tab);
-	t_point p;
-	p.x = 0;
-	p.y = 0;
-	while (tab[p.y] != 0)
-	{
-		p.x = 0;
-		while (tab[p.y][p.x] != -43)
-		{
-			printf("%d ", tab[p.y][p.x]);
-			p.x++;
-		}
-		printf("\n");
-		p.y++;
-	}
-	return (tab);
+	//	while (get_next_line(file, &tab2[stop.y]))
 }
