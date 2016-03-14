@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 19:07:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/14 19:23:42 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/14 19:56:53 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ void	clear_screen(t_env *env)
 	t_point p;
 
 	mlx_clear_window(env->mlx, env->win);
-	return;
+	env->img = mlx_new_image(env->mlx, WIN_WIDTH, WIN_HEIGHT);
 	p.y = 0;
 	while (p.y < WIN_HEIGHT)
 	{
 		p.x = 0;
 		while (p.x < WIN_WIDTH)
 		{
-			//mlx_pixel_put(env->mlx, env->win, p.x, p.y, 0xDCF1F7);
-			mlx_pixel_put(env->mlx, env->win, p.x, p.y, 0x000000);
+			pixel_to_image(0xFFFFFFFF, env,
+			p.x, p.y);
 			p.x++;
 		}
 		p.y++;
@@ -55,9 +55,15 @@ void	draw_line(t_env *env, t_point a, t_point b)
 	i = 0;
 	while (i < line.length)
 	{
-		mlx_pixel_put(env->mlx, env->win, line.x + env->pos.x,
-				line.y + env->pos.y, ft_altitude_color(a.z, env->color) -
-				(i * ((ft_int_diff(a.z, b.z) * 20000) / line.length)));
+		if ((line.x + env->pos.x) < WIN_WIDTH
+			&& (line.y + env->pos.y) < WIN_HEIGHT
+			&& (line.x + env->pos.x) > 0
+			&& (line.y + env->pos.y) > 0)
+		{
+			pixel_to_image(ft_altitude_color(a.z, env->color) -
+			(i * ((ft_int_diff(a.z, b.z) * 20000) / line.length)), env,
+			line.x + env->pos.x, line.y + env->pos.y);
+		}
 		line.x += line.addx;
 		line.y += line.addy;
 		i++;
@@ -91,11 +97,7 @@ void	draw_grid(t_env *env, int clear)
 	t_point p;
 
 	if (clear)
-		clear = clear + 1;
-	//	clear_screen(env);
-	pixel_to_image(0x000000FF, env, 50, 50);
-	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
-	return;
+		clear_screen(env);
 	p.x = 0;
 	p.y = 0;
 	p.z = 0;
@@ -109,4 +111,5 @@ void	draw_grid(t_env *env, int clear)
 		}
 		p.y++;
 	}
+	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 }

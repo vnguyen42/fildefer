@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/18 19:21:33 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/14 19:17:35 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/14 19:50:50 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct		s_env
 	t_point	pos;
 	int		color;
 	int		grid_space;
+	int		ft_hauteur_animation;
+	int		ft_hauteur_animation_going;
 	t_point dimensions;
 }					t_env;
 
@@ -54,5 +56,6 @@ t_point ft_rotation(t_env *env, t_point p, float angle);
 int		ft_key_handler(int keycode, void *param);
 int		ft_int_diff(int a, int b);
 void    pixel_to_image(unsigned long color, t_env *val, int x, int y);
+void	ft_hauteur_animation(void *param);
 
 #endif
