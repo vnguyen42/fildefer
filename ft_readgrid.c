@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/17 19:30:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/11 19:48:34 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/14 16:38:59 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,130 +15,141 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-void	ft_strsplit_int(char *line, int *int_tab)
+int		number_of_numbers(char *line)
 {
-	int n_l;
-	int index;
-	int index_num;
+	int i;
+	int j;
+	int number_of_numbers;
 
-	index = 0;
-	index_num = 0;
-	while (line[index] != '\0')
+	i = 0;
+	number_of_numbers = 0;
+	while (line[i] != '\0')
 	{
-		n_l = 0;
-		while (line[index + n_l] != '\0' && line[index + n_l] >= '0' && line[index + n_l] <= '9')
-			n_l++;
-		if (n_l >= 1)
-		{
-			int_tab[index_num] = ft_atoi(ft_strsub(line, index, n_l));
-			index_num++;
-		}
-		index += n_l;
-		index++;
+		j = 0;
+		while (line[i + j] >= '0' && line[i + j] <= '9')
+			j++;
+		i+= j;
+		if (j > 0)
+			number_of_numbers++;
+		i++;
 	}
-	int_tab[index_num] = -43;
-}
-
-void	char_to_int_tab(char **tab, int **int_tab)
-{
-	t_point p;
-
-	p.y = 0;
-	while (tab[p.y] != 0)
-	{
-		ft_strsplit_int(tab[p.y], int_tab[p.y]); 
-		p.y++;
-	}
-	int_tab[p.y][p.x] = -42;
-}
-
-char **char_tab_from_file(char *filepath)
-{
-	int file;
-	char buf[5000];
-	int index;
-	t_point pos;
-	char **tab;
-
-	file = open(filepath, O_RDONLY);
-	index = read(file, buf, 5000);
-	buf[index] = '\0';
-	close(file);
-	pos.x = 0;
-	pos.y = 0;
-	while (buf[pos.x] != '\n')
-		pos.x++;
-	pos.y = index/pos.x;
-	tab = (char **)malloc(sizeof(char*) * pos.y + 1);
-	index = 0;
-	while (index < pos.y)
-	{
-		tab[index] = (char*)malloc(sizeof(char) * (pos.x + 1));
-		index++;
-	}
-	tab[index] = 0;
-	return (tab);
+	return (number_of_numbers);
 }
 
 t_point get_file_dimensions(char *filepath)
 {
 	int file;
-	char buf[100];
+	char *buf;
 	int line_length;
 	t_point dimensions;
+	int i;
 
 	line_length = 0;
 	dimensions.x = 0;
 	dimensions.y = 0;
 	file = open(filepath, O_RDONLY);
-	while (read(file, buf, 1) > 0)
+	while (get_next_line(file, &buf) > 0)
 	{
-		if (buf[0] >= '0' && buf[0] <= '9')
-			line_length++;
-		if (buf[0] == '\n')
-		{
-			if (line_length > dimensions.x)
-				dimensions.x = line_length;
-			line_length = 0;
-			dimensions.y++;
-		}
+		if (number_of_numbers(buf) > dimensions.x)
+			dimensions.x = number_of_numbers(buf);
+		dimensions.y++;
+		i = 0;
 	}
 	return dimensions;
 }
 
-int **new_tab_from_file(char *filepath)
+int		**intnew(t_point dimensions)
 {
+	int **tab;
+	int i;
+
+	tab = NULL;
+	i = 0;
+	tab = (int**)malloc(sizeof(int*) * dimensions.y);
+	while (i <= dimensions.y)
+	{
+		tab[i] = (int*)malloc(sizeof(int) * dimensions.x);
+		i++;
+	}
+	return (tab);
+}
+
+int		get_next_number(char *line, int *num)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		j = 0;
+		while (line[i + j] >= '0' && line[i + j] <= '9')
+			j++;
+		if (j > 0)
+		{
+			*num = ft_atoi(ft_strsub(line, i, j));
+			return j;
+		}
+		i += j;
+		i++;
+	}
+	*num = -42;
+	return (-42);
+}
+
+int		**get_tab_from_file(char *filepath)
+{
+	t_point i;
+	t_point j;
 	int file;
-	char buf[5000];
-	int index;
-	t_point pos;
+	char *buf;
 	int **tab;
 
+	i.x = 0;
+	i.y = 0;
 	file = open(filepath, O_RDONLY);
-	index = read(file, buf, 5000);
-	buf[index] = '\0';
-	close(file);
-	pos.x = 0;
-	pos.y = 0;
-	while (buf[pos.x] != '\n')
-		pos.x++;
-	pos.y = index/pos.x;
-	tab = (int **)malloc(sizeof(int*) * pos.y + 1);
-	index = 0;
-	while (index < pos.y)
+	tab = intnew(get_file_dimensions(filepath));
+	while (get_next_line(file, &buf) > 0)
 	{
-		tab[index] = (int*)malloc(sizeof(int) * (pos.x + 1));
-		index++;
+		i.x = 0;
+		j.x = 0;
+		j.y = 0;
+		while (j.x != -42)
+		{
+			j.x = get_next_number(&buf[j.y], &tab[i.y][i.x]);	
+			j.y += j.x;
+			j.y++;
+			i.x++;
+		}
+		i.y++;
 	}
-	tab[index] = 0;
+	tab[i.y] = 0;
 	return (tab);
+}
+
+void	ft_print_grid(int **tab)
+{
+	t_point c;
+
+	c.x = 0;
+	c.y = 0;
+	while (tab[c.y] != 0)
+	{
+		c.x = 0;
+		while (tab[c.y][c.x] != -42)
+		{
+			printf("%d ", tab[c.y][c.x]);
+			c.x++;
+		}
+		c.y++;
+		printf("\n");
+	}
 }
 
 int		**read_grid(char *filepath)
 {
 	int 		file;
 	int 		**int_tab;
-	char		**char_tab;
 
 	file = open(filepath, O_RDONLY);
 	if (file == -1)
@@ -146,9 +157,9 @@ int		**read_grid(char *filepath)
 	
 	t_point dimensions = get_file_dimensions(filepath);
 	printf("dimensions: %d %d", dimensions.x, dimensions.y);
-	return NULL;
-	int_tab = new_tab_from_file(filepath);
-	char_tab = char_tab_from_file(filepath);
+	int_tab = get_tab_from_file(filepath);
 	close (file);
-	//	while (get_next_line(file, &tab2[stop.y]))
+	printf("\n");
+	ft_print_grid(int_tab);
+	return (int_tab);
 }
