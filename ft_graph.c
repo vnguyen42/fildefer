@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 19:07:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/14 16:46:07 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/14 17:39:34 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	draw_grid(t_env *env, int clear)
 	p.x = 0;
 	p.y = 0;
 	p.z = 0;
-	while (env->tab[p.y] != 0)
+	while (env->tab[p.y] != 0 && p.y < 10)
 	{
 		p.x = 0;
 		while (env->tab[p.y][p.x] != -42)

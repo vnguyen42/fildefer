@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/17 19:30:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/14 16:46:32 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/14 18:30:33 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ int		**intnew(t_point dimensions)
 
 	tab = NULL;
 	i = 0;
-	tab = (int**)malloc(sizeof(int*) * dimensions.y);
+	tab = (int**)malloc(sizeof(int*) * dimensions.y + 10);
 	while (i <= dimensions.y)
 	{
-		tab[i] = (int*)malloc(sizeof(int) * dimensions.x);
+		tab[i] = (int*)malloc(sizeof(int) * dimensions.x + 10);
 		i++;
 	}
 	return (tab);
@@ -80,7 +80,7 @@ int		get_next_number(char *line, int *num)
 	int j;
 
 	i = 0;
-	while (line[i] != '\0')
+	while (line[i] != '\0' && line[i] != '\n' && line[i - 1] != '\n')
 	{
 		j = 0;
 		while (line[i + j] >= '0' && line[i + j] <= '9')
@@ -88,7 +88,10 @@ int		get_next_number(char *line, int *num)
 		if (j > 0)
 		{
 			*num = ft_atoi(ft_strsub(line, i, j));
-			return j;
+			if (ft_strlen(line) == 1)
+				return j - 1;
+			else
+				return j;
 		}
 		i += j;
 		i++;
@@ -105,7 +108,6 @@ int		**get_tab_from_file(char *filepath)
 	char *buf;
 	int **tab;
 
-	i.x = 0;
 	i.y = 0;
 	file = open(filepath, O_RDONLY);
 	tab = intnew(get_file_dimensions(filepath));
@@ -116,9 +118,8 @@ int		**get_tab_from_file(char *filepath)
 		j.y = 0;
 		while (j.x != -42)
 		{
-			j.x = get_next_number(&buf[j.y], &tab[i.y][i.x]);	
-			j.y += j.x;
-			j.y++;
+			j.x = get_next_number(&buf[j.y], &tab[i.y][i.x]);
+			j.y += j.x + 1;
 			i.x++;
 		}
 		i.y++;
@@ -159,7 +160,6 @@ int		**read_grid(char *filepath)
 	printf("dimensions: %d %d", dimensions.x, dimensions.y);
 	int_tab = get_tab_from_file(filepath);
 	close (file);
-	printf("\n");
-	ft_print_grid(int_tab);
+	//ft_print_grid(int_tab);
 	return (int_tab);
 }
