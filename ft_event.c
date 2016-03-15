@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 20:47:06 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/15 15:59:46 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/15 16:03:44 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-void ft_hauteur_animation(void *param)
+void	ft_hauteur_animation(void *param)
 {
 	t_env *env;
 
@@ -27,7 +27,6 @@ void ft_hauteur_animation(void *param)
 		else if (env->hauteur < -20
 				&& env->ft_hauteur_animation_going == 0)
 			env->ft_hauteur_animation_going = 1;
-
 		if (env->ft_hauteur_animation_going)
 			env->hauteur += 0.2;
 		else
@@ -42,7 +41,7 @@ void	ft_key_handler2(int keycode, t_env *env)
 	else if (keycode == 256)
 		env->rotation += 0.1;
 	else if (keycode == 69)
-		env->grid_space+= 2;
+		env->grid_space += 2;
 	else if (keycode == 78 && env->grid_space >= 2)
 		env->grid_space -= 2;
 	else if (keycode == 126)
@@ -56,7 +55,7 @@ void	ft_key_handler2(int keycode, t_env *env)
 	else if (keycode == 19)
 		env->hauteur += 1;
 	else if (keycode == 18)
-		env->hauteur -= 1;	
+		env->hauteur -= 1;
 }
 
 int		ft_key_handler(int keycode, void *param)

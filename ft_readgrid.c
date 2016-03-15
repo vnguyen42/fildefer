@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/17 19:30:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/15 16:02:23 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/15 16:13:19 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,13 @@
 #include "read_grid.h"
 #include "get_next_line.h"
 
-int		number_of_numbers(char *line)
+t_point	get_file_dimensions(char *filepath)
 {
-	int i;
-	int j;
-	int number_of_numbers;
-
-	i = 0;
-	number_of_numbers = 0;
-	while (line[i] != '\0')
-	{
-		j = 0;
-		while (line[i + j] >= '0' && line[i + j] <= '9')
-			j++;
-		i+= j;
-		if (j > 0)
-			number_of_numbers++;
-		i++;
-	}
-	return (number_of_numbers);
-}
-
-t_point get_file_dimensions(char *filepath)
-{
-	int file;
-	char *buf;
-	int line_length;
-	t_point dimensions;
-	int i;
+	int		file;
+	char	*buf;
+	int		line_length;
+	t_point	dimensions;
+	int		i;
 
 	line_length = 0;
 	dimensions.x = 0;
@@ -54,7 +33,7 @@ t_point get_file_dimensions(char *filepath)
 		dimensions.y++;
 		i = 0;
 	}
-	return dimensions;
+	return (dimensions);
 }
 
 int		**intnew(t_point dimensions)
@@ -89,9 +68,9 @@ int		get_next_number(char *line, int *num)
 		{
 			*num = ft_atoi(ft_strsub(line, i, j));
 			if (ft_strlen(line) == 1)
-				return j - 1;
+				return (j - 1);
 			else
-				return j;
+				return (j);
 		}
 		i += j;
 		i++;
@@ -102,11 +81,11 @@ int		get_next_number(char *line, int *num)
 
 int		**get_tab_from_file(char *filepath)
 {
-	t_point i;
-	t_point j;
-	int file;
-	char *buf;
-	int **tab;
+	t_point	i;
+	t_point	j;
+	int		file;
+	char	*buf;
+	int		**tab;
 
 	i.y = 0;
 	file = open(filepath, O_RDONLY);
@@ -128,33 +107,15 @@ int		**get_tab_from_file(char *filepath)
 	return (tab);
 }
 
-void	ft_print_grid(int **tab)
-{
-	t_point c;
-
-	c.x = 0;
-	c.y = 0;
-	while (tab[c.y] != 0)
-	{
-		c.x = 0;
-		while (tab[c.y][c.x] != -42)
-		{
-			c.x++;
-		}
-		c.y++;
-	}
-}
-
 int		**read_grid(char *filepath)
 {
-	int 		file;
-	int 		**int_tab;
+	int	file;
+	int	**int_tab;
 
 	file = open(filepath, O_RDONLY);
 	if (file == -1)
 		return (NULL);
 	int_tab = get_tab_from_file(filepath);
-	close (file);
-	ft_print_grid(int_tab);
+	close(file);
 	return (int_tab);
 }

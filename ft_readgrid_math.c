@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_graph_utils.c                                   :+:      :+:    :+:   */
+/*   ft_readgrid_math.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/15 15:53:42 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/15 16:14:06 by vnguyen          ###   ########.fr       */
+/*   Created: 2016/03/15 16:10:56 by vnguyen           #+#    #+#             */
+/*   Updated: 2016/03/15 16:13:36 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fdf.h"
 
-void	clear_screen(t_env *env)
+int	number_of_numbers(char *line)
 {
-	t_point p;
+	int i;
+	int j;
+	int number_of_numbers;
 
-	mlx_clear_window(env->mlx, env->win);
-	env->img = mlx_new_image(env->mlx, WIN_WIDTH, WIN_HEIGHT);
-	p.y = 0;
-	while (p.y < WIN_HEIGHT)
+	i = 0;
+	number_of_numbers = 0;
+	while (line[i] != '\0')
 	{
-		p.x = 0;
-		while (p.x < WIN_WIDTH)
-		{
-			pixel_to_image(0x00000000, env,
-					p.x, p.y);
-			p.x++;
-		}
-		p.y++;
+		j = 0;
+		while (line[i + j] >= '0' && line[i + j] <= '9')
+			j++;
+		i += j;
+		if (j > 0)
+			number_of_numbers++;
+		i++;
 	}
+	return (number_of_numbers);
 }

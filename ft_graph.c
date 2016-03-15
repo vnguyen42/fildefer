@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 19:07:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/15 15:58:52 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/15 16:08:16 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 #include "read_grid.h"
 #include <stdio.h>
 
-int		ft_altitude_color(t_env *env, int i
-		, t_point a, t_point b, t_line line)
+int		ft_altitude_color(t_env *env, t_point a
+		, t_point b, t_line line)
 {
-	return (env->color - (a.z * 100) - 
-			(i * ((ft_int_diff(a.z, b.z) * 20000) / line.length)));
+	return (env->color - (a.z * 100) -
+			(env->tmp * ((ft_int_diff(a.z, b.z) * 20000) / line.length)));
 }
 
 void	draw_line_transform(t_line *line, t_point a, t_point b)
@@ -47,7 +47,8 @@ void	draw_line(t_env *env, t_point a, t_point b)
 				&& (line.x + env->pos.x) > 0
 				&& (line.y + env->pos.y) > 0)
 		{
-			pixel_to_image(ft_altitude_color(env, i, a, b, line), env,
+			env->tmp = i;
+			pixel_to_image(ft_altitude_color(env, a, b, line), env,
 					line.x + env->pos.x, line.y + env->pos.y);
 		}
 		line.x += line.addx;
@@ -68,14 +69,16 @@ void	point_360_drawing(t_env *env, int **tab, t_point pos)
 	b.y = (pos.y + 1);
 	b.z = tab[b.y][b.x] * env->hauteur;
 	if (tab[pos.y + 2] != 0 && tab[pos.y + 1][pos.x] != -42)
-		draw_line(env, ft_rotation(env, ft_projection(env, a, 0.5), env->rotation),
-				ft_rotation(env, ft_projection(env, b, 0.5), env->rotation));
+		draw_line(env, ft_rotation(env, ft_projection(env, a, 0.5),
+						env->rotation), ft_rotation(env,
+						ft_projection(env, b, 0.5), env->rotation));
 	b.y--;
 	b.x++;
 	b.z = tab[b.y][b.x];
 	if (tab[pos.y] != 0 && tab[pos.y][pos.x + 1] != -42)
-		draw_line(env, ft_rotation(env, ft_projection(env, a, 0.5), env->rotation),
-				ft_rotation(env, ft_projection(env, b, 0.5), env->rotation));
+		draw_line(env, ft_rotation(env, ft_projection(env, a, 0.5),
+						env->rotation), ft_rotation(env,
+						ft_projection(env, b, 0.5), env->rotation));
 }
 
 void	draw_grid(t_env *env, int clear)

@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 19:41:08 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/15 15:52:36 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/15 16:09:47 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #include "read_grid.h"
 #include <math.h>
 
-t_point	ft_projection(t_env *env, t_point p, float cte)
+t_point		ft_projection(t_env *env, t_point p, float cte)
 {
-	float x;
-	float y;
-	float z;
-	t_point projected_point;
+	float	x;
+	float	y;
+	float	z;
+	t_point	projected_point;
 
 	z = p.z / 6.5;
 	x = p.x - cte * z;
@@ -30,12 +30,12 @@ t_point	ft_projection(t_env *env, t_point p, float cte)
 	return (projected_point);
 }
 
-t_point ft_rotation(t_env *env, t_point p, float angle)
+t_point		ft_rotation(t_env *env, t_point p, float angle)
 {
-	t_point rotated_point;
-	t_point new_point;
-	float s;
-	float c;
+	t_point	rotated_point;
+	t_point	new_point;
+	float	s;
+	float	c;
 
 	(void)(env);
 	rotated_point = p;
@@ -43,13 +43,12 @@ t_point ft_rotation(t_env *env, t_point p, float angle)
 	c = cos(angle);
 	new_point.x = rotated_point.x * c - rotated_point.y * s;
 	new_point.y = rotated_point.x * s + rotated_point.y * c;
-
 	rotated_point.x = new_point.x;
 	rotated_point.y = new_point.y;
 	return (rotated_point);
 }
 
-int		ft_int_diff(int a, int b)
+int			ft_int_diff(int a, int b)
 {
 	if (a >= b)
 		return (a - b);
@@ -57,12 +56,12 @@ int		ft_int_diff(int a, int b)
 		return (b - a);
 }
 
-void    pixel_to_image(unsigned long color, t_env *val, int x, int y)
+void		pixel_to_image(unsigned long color, t_env *val, int x, int y)
 {
-	char    *image;
-	int     bpp;
-	int     size_line;
-	int     endian;
+	char	*image;
+	int		bpp;
+	int		size_line;
+	int		endian;
 
 	image = mlx_get_data_addr(val->img, &bpp, &size_line, &endian);
 	val->r = ((color & 0xFF0000) >> 16);
