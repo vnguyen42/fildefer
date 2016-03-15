@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/18 19:18:32 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/14 19:57:04 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/15 16:00:51 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,19 @@ int	ft_translucid(void *param)
 	return (1);
 }
 
+void	init_env_vars(t_env *env)
+{
+	env->rotation = 101;
+	env->color = 0x00ace6;
+	env->color = 19000;
+	env->pos.x = 300;
+	env->pos.y = 300;
+	env->hauteur = 1.0;
+	env->grid_space = 30;
+	env->ft_hauteur_animation = 0;
+	env->ft_hauteur_animation_going = 0;
+}
+
 int		init_fdf(int **tab, t_point dimensions)
 {
 	t_env env;
@@ -40,16 +53,7 @@ int		init_fdf(int **tab, t_point dimensions)
 	a.y = 0;
 	b.x = 500;
 	b.y = 600;
-	env.rotation = 101;
-	env.color = 0x00ace6;
-	env.color = 19000;
-	env.pos.x = 300;
-	env.pos.y = 300;
-	env.hauteur = 1.0;
-	env.grid_space = 30;
-	env.ft_hauteur_animation = 0;
-	env.ft_hauteur_animation_going = 0;
-//	draw_line(mlx, win, a, b, 0xFFFFFF);
+	init_env_vars(&env);
 	mlx_loop_hook(env.mlx, ft_translucid, &env);
 	draw_grid(&env, 1);
 	mlx_key_hook(env.win, ft_key_handler, &env);

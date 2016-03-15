@@ -6,14 +6,13 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/17 19:30:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/14 18:56:58 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/15 16:02:23 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Libft/libft.h"
 #include "read_grid.h"
 #include "get_next_line.h"
-#include <stdio.h>
 
 int		number_of_numbers(char *line)
 {
@@ -120,11 +119,9 @@ int		**get_tab_from_file(char *filepath)
 		while (j.x != -42)
 		{
 			j.x = get_next_number(&buf[j.y], &tab[i.y][i.x]);
-	//		printf("%d ", j.x);
 			j.y += j.x + 1;
 			i.x++;
 		}
-	//	printf("\n");
 		i.y++;
 	}
 	tab[i.y] = 0;
@@ -142,11 +139,9 @@ void	ft_print_grid(int **tab)
 		c.x = 0;
 		while (tab[c.y][c.x] != -42)
 		{
-			printf("%d ", tab[c.y][c.x]);
 			c.x++;
 		}
 		c.y++;
-		printf("\n");
 	}
 }
 
@@ -158,10 +153,6 @@ int		**read_grid(char *filepath)
 	file = open(filepath, O_RDONLY);
 	if (file == -1)
 		return (NULL);
-	
-	t_point dimensions = get_file_dimensions(filepath);
-	
-	printf("dimensions: %d %d\n", dimensions.x, dimensions.y);
 	int_tab = get_tab_from_file(filepath);
 	close (file);
 	ft_print_grid(int_tab);

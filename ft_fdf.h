@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/18 19:21:33 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/14 19:50:50 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/15 15:58:31 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ int		ft_key_handler(int keycode, void *param);
 int		ft_int_diff(int a, int b);
 void    pixel_to_image(unsigned long color, t_env *val, int x, int y);
 void	ft_hauteur_animation(void *param);
+void	clear_screen(t_env *env);
 
 #endif

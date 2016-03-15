@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_graph_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/17 19:40:04 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/15 16:02:18 by vnguyen          ###   ########.fr       */
+/*   Created: 2016/03/15 15:53:42 by vnguyen           #+#    #+#             */
+/*   Updated: 2016/03/15 15:54:01 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "read_grid.h"
 #include "ft_fdf.h"
 
-int		main(int argc, char **argv)
+void    clear_screen(t_env *env)
 {
-	if (argc != 2)
-		return (0);
-	if (argv[1] == NULL)
-		return (0);
-	init_fdf(read_grid(argv[1]), get_file_dimensions(argv[1]));
-	return (0);
+	t_point p;
+
+	mlx_clear_window(env->mlx, env->win);
+	env->img = mlx_new_image(env->mlx, WIN_WIDTH, WIN_HEIGHT);
+	p.y = 0;
+	while (p.y < WIN_HEIGHT)
+	{
+		p.x = 0;
+		while (p.x < WIN_WIDTH)
+		{
+			pixel_to_image(0x00000000, env,
+					p.x, p.y);
+			p.x++;
+		}
+		p.y++;
+	}
 }

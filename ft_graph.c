@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 19:07:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/14 19:56:53 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/15 15:58:52 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,22 @@
 #include "read_grid.h"
 #include <stdio.h>
 
-void	clear_screen(t_env *env)
+int		ft_altitude_color(t_env *env, int i
+		, t_point a, t_point b, t_line line)
 {
-	t_point p;
-
-	mlx_clear_window(env->mlx, env->win);
-	env->img = mlx_new_image(env->mlx, WIN_WIDTH, WIN_HEIGHT);
-	p.y = 0;
-	while (p.y < WIN_HEIGHT)
-	{
-		p.x = 0;
-		while (p.x < WIN_WIDTH)
-		{
-			pixel_to_image(0xFFFFFFFF, env,
-			p.x, p.y);
-			p.x++;
-		}
-		p.y++;
-	}
+	return (env->color - (a.z * 100) - 
+			(i * ((ft_int_diff(a.z, b.z) * 20000) / line.length)));
 }
 
-int		ft_altitude_color(int height, int color)
+void	draw_line_transform(t_line *line, t_point a, t_point b)
 {
-	return (color - (height * 100));
+	line->x = b.x - a.x;
+	line->y = b.y - a.y;
+	line->length = sqrt(line->x * line->x + line->y * line->y);
+	line->addx = line->x / line->length;
+	line->addy = line->y / line->length;
+	line->x = a.x;
+	line->y = a.y;
 }
 
 void	draw_line(t_env *env, t_point a, t_point b)
@@ -45,24 +38,17 @@ void	draw_line(t_env *env, t_point a, t_point b)
 	int		i;
 	t_line	line;
 
-	line.x = b.x - a.x;
-	line.y = b.y - a.y;
-	line.length = sqrt(line.x * line.x + line.y * line.y);
-	line.addx = line.x / line.length;
-	line.addy = line.y / line.length;
-	line.x = a.x;
-	line.y = a.y;
+	draw_line_transform(&line, a, b);
 	i = 0;
 	while (i < line.length)
 	{
 		if ((line.x + env->pos.x) < WIN_WIDTH
-			&& (line.y + env->pos.y) < WIN_HEIGHT
-			&& (line.x + env->pos.x) > 0
-			&& (line.y + env->pos.y) > 0)
+				&& (line.y + env->pos.y) < WIN_HEIGHT
+				&& (line.x + env->pos.x) > 0
+				&& (line.y + env->pos.y) > 0)
 		{
-			pixel_to_image(ft_altitude_color(a.z, env->color) -
-			(i * ((ft_int_diff(a.z, b.z) * 20000) / line.length)), env,
-			line.x + env->pos.x, line.y + env->pos.y);
+			pixel_to_image(ft_altitude_color(env, i, a, b, line), env,
+					line.x + env->pos.x, line.y + env->pos.y);
 		}
 		line.x += line.addx;
 		line.y += line.addy;
