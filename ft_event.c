@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 20:47:06 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/15 16:03:44 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/19 19:23:51 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,9 @@ int		ft_key_handler(int keycode, void *param)
 	env = param;
 	ft_key_handler2(keycode, env);
 	if (keycode == 20)
-	{
-		if (env->ft_hauteur_animation)
-			env->ft_hauteur_animation = 0;
-		else
-			env->ft_hauteur_animation = 1;
-	}
+		env->ft_hauteur_animation = (env->ft_hauteur_animation) ? 0 : 1;
+	if (keycode == 21)
+		env->ft_point_mode = (env->ft_point_mode) ? 0 : 1;
 	if (keycode == 257 || keycode == 256 || keycode == 18
 			|| keycode == 19 || keycode == 69 || keycode == 78
 			|| (keycode >= 123 && keycode <= 126))

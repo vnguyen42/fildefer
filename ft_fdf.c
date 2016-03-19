@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/18 19:18:32 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/15 16:05:05 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/19 19:24:22 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	init_env_vars(t_env *env)
 	env->grid_space = 30;
 	env->ft_hauteur_animation = 0;
 	env->ft_hauteur_animation_going = 0;
+	env->ft_point_mode = 0;
 }
 
 int		init_fdf(int **tab, t_point dimensions)

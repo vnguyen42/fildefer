@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 19:07:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/15 16:08:16 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/19 19:25:40 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,14 @@ int		ft_altitude_color(t_env *env, t_point a
 			(env->tmp * ((ft_int_diff(a.z, b.z) * 20000) / line.length)));
 }
 
-void	draw_line_transform(t_line *line, t_point a, t_point b)
+void	draw_line_transform(t_line *line, t_point a, t_point b
+		, int point_mode)
 {
 	line->x = b.x - a.x;
 	line->y = b.y - a.y;
 	line->length = sqrt(line->x * line->x + line->y * line->y);
+	if (point_mode)
+		line->length = 1;
 	line->addx = line->x / line->length;
 	line->addy = line->y / line->length;
 	line->x = a.x;
@@ -38,7 +41,10 @@ void	draw_line(t_env *env, t_point a, t_point b)
 	int		i;
 	t_line	line;
 
-	draw_line_transform(&line, a, b);
+	if (env->ft_point_mode)
+		draw_line_transform(&line, a, b, 1);
+	else
+		draw_line_transform(&line, a, b, 0);
 	i = 0;
 	while (i < line.length)
 	{
