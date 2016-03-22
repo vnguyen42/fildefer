@@ -6,14 +6,13 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 19:07:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/19 19:25:40 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/22 10:12:38 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fdf.h"
 #include "Libft/libft.h"
 #include "read_grid.h"
-#include <stdio.h>
 
 int		ft_altitude_color(t_env *env, t_point a
 		, t_point b, t_line line)
