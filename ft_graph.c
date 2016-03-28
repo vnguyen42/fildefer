@@ -6,7 +6,7 @@
 /*   By: vnguyen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 19:07:15 by vnguyen           #+#    #+#             */
-/*   Updated: 2016/03/22 10:12:38 by vnguyen          ###   ########.fr       */
+/*   Updated: 2016/03/23 20:15:21 by vnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ void	point_360_drawing(t_env *env, int **tab, t_point pos)
 	a.z = tab[a.y][a.x] * env->hauteur;
 	b.x = (pos.x);
 	b.y = (pos.y + 1);
-	b.z = tab[b.y][b.x] * env->hauteur;
-	if (tab[pos.y + 2] != 0 && tab[pos.y + 1][pos.x] != -42)
+	if (tab[b.y] != 0)
+		b.z = tab[b.y][b.x] * env->hauteur;
+	if (tab[pos.y + 1] != 0 && tab[pos.y + 1][pos.x] != -42)
 		draw_line(env, ft_rotation(env, ft_projection(env, a, 0.5),
 						env->rotation), ft_rotation(env,
 						ft_projection(env, b, 0.5), env->rotation));
@@ -95,7 +96,7 @@ void	draw_grid(t_env *env, int clear)
 	p.x = 0;
 	p.y = 0;
 	p.z = 0;
-	while (env->tab[p.y] != 0 && p.y < env->dimensions.y - 1)
+	while (env->tab[p.y] != 0 && p.y < env->dimensions.y)
 	{
 		p.x = 0;
 		while (env->tab[p.y][p.x] != -42)
